@@ -243,6 +243,10 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PetProfileController.cs" />
+    <Compile Include="Controllers\RecordsController.cs" />
+    <Compile Include="CVOEmployee.cs">
+      <DependentUpon>PODBProjectDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Feedback.cs">
       <DependentUpon>PODBProjectDataModel.tt</DependentUpon>
     </Compile>
@@ -2135,6 +2139,9 @@
     <Content Include="Views\PetOwnerProfiles\Details.cshtml" />
     <Content Include="Views\PetOwnerProfiles\Edit.cshtml" />
     <Content Include="Views\PetOwnerProfiles\Index.cshtml" />
+    <Content Include="Views\Records\Violations.cshtml" />
+    <Content Include="Views\Records\Adoption.cshtml" />
+    <Content Include="Views\Records\Services.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

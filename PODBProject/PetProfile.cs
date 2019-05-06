@@ -11,36 +11,33 @@ namespace PODBProject
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-
+    
     public partial class PetProfile
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PetProfile()
         {
+            this.Adoptions = new HashSet<Adoption>();
             this.Services = new HashSet<Service>();
         }
     
         public int petId { get; set; }
         public string Id { get; set; }
-        [DisplayName("Pet Name")]
         public string petName { get; set; }
-        [DisplayName("Pet Type")]
         public string petType { get; set; }
-        [DisplayName("Pet Breed")]
         public string petBreed { get; set; }
-        [DisplayName("Pet Gender")]
         public string gender { get; set; }
-        [DisplayName("Pet Micro Chip Status")]
         public string mChipStatus { get; set; }
-        [DisplayName("Pet Micro Chip ID")]
         public string mChipId { get; set; }
-        [DisplayName("Nueter Status")]
         public string nueterStatus { get; set; }
         public int imageID { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Adoption> Adoptions { get; set; }
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual Image Image { get; set; }
+        public virtual PetProfile PetProfile1 { get; set; }
+        public virtual PetProfile PetProfile2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Service> Services { get; set; }
     }

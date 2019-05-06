@@ -12,16 +12,12 @@ namespace PODBProject
     using System;
     using System.Collections.Generic;
     
-    public partial class Announcement
+    public partial class CVOEmployee
     {
-        public int announceId { get; set; }
-        public string announceTitle { get; set; }
-        public string announceText { get; set; }
-        public int imageID { get; set; }
-        public System.DateTime announceDate { get; set; }
-        public string Id { get; set; }
-    
-        public virtual AspNetUser AspNetUser { get; set; }
-        public virtual Image Image { get; set; }
+        public string accountId { get; set; }
+        public string employeeId { get; set; }
+        public string employeeName { get; set; }
+        public string email { get; set; }
+        public string password { get; set; }
     }
 }

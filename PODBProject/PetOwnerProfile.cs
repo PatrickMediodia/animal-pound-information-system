@@ -11,25 +11,17 @@ namespace PODBProject
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-
+    
     public partial class PetOwnerProfile
     {
         public int profileId { get; set; }
         public string Id { get; set; }
-        [DisplayName("Full Name")]
         public string fullName { get; set; }
-        [DisplayName("Gender")]
         public string gender { get; set; }
-        [DisplayName("Street")]
         public string street { get; set; }
-        [DisplayName("Subdivision")]
         public string subdivision { get; set; }
-        [DisplayName("Barangay")]
         public string barangay { get; set; }
-        [DisplayName("Contact Number")]
         public string contactNumber { get; set; }
-        [DisplayName("Email")]
         public string email { get; set; }
         public System.DateTime registerDate { get; set; }
         public System.DateTime updateDate { get; set; }

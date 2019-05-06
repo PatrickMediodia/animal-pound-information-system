@@ -16,9 +16,10 @@ namespace PODBProject
     {
         public int adoptionId { get; set; }
         public string Id { get; set; }
-        public string petId { get; set; }
+        public int petId { get; set; }
         public System.DateTime adoptionDate { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
+        public virtual PetProfile PetProfile { get; set; }
     }
 }

@@ -11,7 +11,7 @@
           </Key>
           <Property Name="adoptionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="petId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="petId" Type="int" Nullable="false" />
           <Property Name="adoptionDate" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="Announcements">
@@ -79,6 +79,16 @@
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="Discriminator" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CVOEmployee">
+          <Key>
+            <PropertyRef Name="accountId" />
+          </Key>
+          <Property Name="accountId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="employeeId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="employeeName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="password" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Feedback">
           <Key>
@@ -176,6 +186,18 @@
             </Principal>
             <Dependent Role="Adoption">
               <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Adoption_PetProfile">
+          <End Role="PetProfile" Type="Self.PetProfile" Multiplicity="1" />
+          <End Role="Adoption" Type="Self.Adoption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PetProfile">
+              <PropertyRef Name="petId" />
+            </Principal>
+            <Dependent Role="Adoption">
+              <PropertyRef Name="petId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -287,6 +309,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PetProfile_PetProfile">
+          <End Role="PetProfile" Type="Self.PetProfile" Multiplicity="1" />
+          <End Role="PetProfile1" Type="Self.PetProfile" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="PetProfile">
+              <PropertyRef Name="petId" />
+            </Principal>
+            <Dependent Role="PetProfile1">
+              <PropertyRef Name="petId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Reports_AspNetUsers">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -349,6 +383,7 @@
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CVOEmployee" EntityType="Self.CVOEmployee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Feedback" EntityType="Self.Feedback" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Image" EntityType="Self.Image" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PetOwnerProfile" EntityType="Self.PetOwnerProfile" Schema="dbo" store:Type="Tables" />
@@ -358,6 +393,10 @@
           <EntitySet Name="Violations" EntityType="Self.Violations" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Adoption_AspNetUsers" Association="Self.FK_Adoption_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Adoption" EntitySet="Adoption" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Adoption_PetProfile" Association="Self.FK_Adoption_PetProfile">
+            <End Role="PetProfile" EntitySet="PetProfile" />
             <End Role="Adoption" EntitySet="Adoption" />
           </AssociationSet>
           <AssociationSet Name="FK_Announcements_AspNetUsers" Association="Self.FK_Announcements_AspNetUsers">
@@ -392,6 +431,10 @@
             <End Role="Image" EntitySet="Image" />
             <End Role="PetProfile" EntitySet="PetProfile" />
           </AssociationSet>
+          <AssociationSet Name="FK_PetProfile_PetProfile" Association="Self.FK_PetProfile_PetProfile">
+            <End Role="PetProfile" EntitySet="PetProfile" />
+            <End Role="PetProfile1" EntitySet="PetProfile" />
+          </AssociationSet>
           <AssociationSet Name="FK_Reports_AspNetUsers" Association="Self.FK_Reports_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Reports" EntitySet="Reports" />
@@ -420,9 +463,10 @@
           </Key>
           <Property Name="adoptionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="petId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="petId" Type="Int32" Nullable="false" />
           <Property Name="adoptionDate" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="AspNetUser" Relationship="Self.FK_Adoption_AspNetUsers" FromRole="Adoption" ToRole="AspNetUsers" />
+          <NavigationProperty Name="PetProfile" Relationship="Self.FK_Adoption_PetProfile" FromRole="Adoption" ToRole="PetProfile" />
         </EntityType>
         <EntityType Name="Announcement">
           <Key>
@@ -502,6 +546,16 @@
           <NavigationProperty Name="Services" Relationship="Self.FK_Services_AspNetUsers" FromRole="AspNetUsers" ToRole="Services" />
           <NavigationProperty Name="Violations" Relationship="Self.FK_Violations_AspNetUsers" FromRole="AspNetUsers" ToRole="Violations" />
         </EntityType>
+        <EntityType Name="CVOEmployee">
+          <Key>
+            <PropertyRef Name="accountId" />
+          </Key>
+          <Property Name="accountId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="employeeId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="employeeName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
         <EntityType Name="Feedback">
           <Key>
             <PropertyRef Name="feedId" />
@@ -557,8 +611,11 @@
           <Property Name="mChipId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="nueterStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="imageID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Adoptions" Relationship="Self.FK_Adoption_PetProfile" FromRole="PetProfile" ToRole="Adoption" />
           <NavigationProperty Name="AspNetUser" Relationship="Self.FK_PetProfile_AspNetUsers" FromRole="PetProfile" ToRole="AspNetUsers" />
           <NavigationProperty Name="Image" Relationship="Self.FK_PetProfile_Image" FromRole="PetProfile" ToRole="Image" />
+          <NavigationProperty Name="PetProfile1" Relationship="Self.FK_PetProfile_PetProfile" FromRole="PetProfile" ToRole="PetProfile1" />
+          <NavigationProperty Name="PetProfile2" Relationship="Self.FK_PetProfile_PetProfile" FromRole="PetProfile1" ToRole="PetProfile" />
           <NavigationProperty Name="Services" Relationship="Self.FK_Services_PetProfile" FromRole="PetProfile" ToRole="Services" />
         </EntityType>
         <EntityType Name="Report">
@@ -611,6 +668,18 @@
             </Principal>
             <Dependent Role="Adoption">
               <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Adoption_PetProfile">
+          <End Role="PetProfile" Type="Self.PetProfile" Multiplicity="1" />
+          <End Role="Adoption" Type="Self.Adoption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PetProfile">
+              <PropertyRef Name="petId" />
+            </Principal>
+            <Dependent Role="Adoption">
+              <PropertyRef Name="petId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -764,6 +833,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PetProfile_PetProfile">
+          <End Role="PetProfile" Type="Self.PetProfile" Multiplicity="1" />
+          <End Role="PetProfile1" Type="Self.PetProfile" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="PetProfile">
+              <PropertyRef Name="petId" />
+            </Principal>
+            <Dependent Role="PetProfile1">
+              <PropertyRef Name="petId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Services_PetProfile">
           <End Role="PetProfile" Type="Self.PetProfile" Multiplicity="1" />
           <End Role="Services" Type="Self.Service" Multiplicity="*" />
@@ -784,6 +865,7 @@
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRole" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
+          <EntitySet Name="CVOEmployees" EntityType="Self.CVOEmployee" />
           <EntitySet Name="Feedbacks" EntityType="Self.Feedback" />
           <EntitySet Name="Images" EntityType="Self.Image" />
           <EntitySet Name="PetOwnerProfiles" EntityType="Self.PetOwnerProfile" />
@@ -793,6 +875,10 @@
           <EntitySet Name="Violations" EntityType="Self.Violation" />
           <AssociationSet Name="FK_Adoption_AspNetUsers" Association="Self.FK_Adoption_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Adoption" EntitySet="Adoptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Adoption_PetProfile" Association="Self.FK_Adoption_PetProfile">
+            <End Role="PetProfile" EntitySet="PetProfiles" />
             <End Role="Adoption" EntitySet="Adoptions" />
           </AssociationSet>
           <AssociationSet Name="FK_Announcements_AspNetUsers" Association="Self.FK_Announcements_AspNetUsers">
@@ -838,6 +924,10 @@
           <AssociationSet Name="FK_PetProfile_Image" Association="Self.FK_PetProfile_Image">
             <End Role="Image" EntitySet="Images" />
             <End Role="PetProfile" EntitySet="PetProfiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PetProfile_PetProfile" Association="Self.FK_PetProfile_PetProfile">
+            <End Role="PetProfile" EntitySet="PetProfiles" />
+            <End Role="PetProfile1" EntitySet="PetProfiles" />
           </AssociationSet>
           <AssociationSet Name="FK_Services_PetProfile" Association="Self.FK_Services_PetProfile">
             <End Role="PetProfile" EntitySet="PetProfiles" />
@@ -926,6 +1016,17 @@
                 <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Discriminator" ColumnName="Discriminator" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CVOEmployees">
+            <EntityTypeMapping TypeName="PODBProjectModel.CVOEmployee">
+              <MappingFragment StoreEntitySet="CVOEmployee">
+                <ScalarProperty Name="accountId" ColumnName="accountId" />
+                <ScalarProperty Name="employeeId" ColumnName="employeeId" />
+                <ScalarProperty Name="employeeName" ColumnName="employeeName" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

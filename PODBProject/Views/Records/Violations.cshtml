@@ -1,0 +1,61 @@
+﻿@model List<PODBProject.Violation>
+
+@{
+    ViewBag.Title = "Violations";
+}
+
+<h2>Violations</h2>
+<div class="p-3 bg-light">
+    <table class="table" id="Data">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Type
+                </th>
+                <th>
+                    Penalty
+                </th>
+                <th>
+                    Text
+                </th>
+                <th>
+                    Date
+                </th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.violatorName
+                    </td>
+                    <td>
+                        @item.violationType
+                    </td>
+                    <td>
+                        @item.violationPenalty
+                    </td>
+                    <td>
+                        @item.violationText
+                    </td>
+                    <td>
+                        @item.violationDate.ToString()
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#Data').DataTable();
+    });
+</script>

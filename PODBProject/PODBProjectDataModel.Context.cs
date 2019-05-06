@@ -32,6 +32,7 @@ namespace PODBProject
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<CVOEmployee> CVOEmployees { get; set; }
         public virtual DbSet<Feedback> Feedbacks { get; set; }
         public virtual DbSet<Image> Images { get; set; }
         public virtual DbSet<PetOwnerProfile> PetOwnerProfiles { get; set; }

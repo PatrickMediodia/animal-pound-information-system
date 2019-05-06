@@ -1,0 +1,64 @@
+﻿@model IEnumerable<PODBProject.Adoption>
+
+@{
+    ViewBag.Title = "Adoption";
+}
+
+
+
+
+<h2>Adoption</h2>
+<div class="p-3 bg-light">
+    <table class="table" id="Data">
+        <thead>
+            <tr>
+                <th>
+                    Pet Name
+                </th>
+                <th>
+                    Adoption Date
+                </th>
+                <th>
+                    Owner Name
+                </th>
+                <th>
+                    Contact Number
+                </th>
+                <th>
+                    Pet ID
+                </th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.PetProfile.petName
+                    </td>
+                    <td>
+                        @item.adoptionDate.ToString()
+                    </td>
+                    <td>
+                        @item.AspNetUser.PetOwnerProfiles.FirstOrDefault().fullName
+                    </td>
+                    <td>
+                        @item.AspNetUser.PetOwnerProfiles.FirstOrDefault().contactNumber
+                    </td>
+                    <td>
+                        @item.petId
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#Data').DataTable();
+    });
+</script>
