@@ -1,0 +1,59 @@
+﻿@model IEnumerable<PODBProject.PetProfile>
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class="container">
+<div class="jumbotron" style="padding-top:10px; padding-bottom:10px;">
+<h2>Pet Profiles</h2>
+    @Html.ActionLink("Create New", "Create")
+</div>
+    </div>
+
+@foreach (var item in Model)
+{
+    <div class="container">
+        <div class="jumbotron">
+            <div class="form-row">
+                <div class="form-group col-sm-4">
+                    <h5><b>Pet Name : </b></h5> 
+                    @Html.DisplayFor(modelItem => item.petName)
+                    <br /><br />
+                    <h5><b>Pet Type : </b></h5>
+                    @Html.DisplayFor(modelItem => item.petType)
+                    <br /><br />
+                    <h5><b>Pet Breed : </b></h5>
+                    @Html.DisplayFor(modelItem => item.petBreed)
+                    <br /><br />
+                    <h5><b>Pet Gender : </b></h5>
+                    @Html.DisplayFor(modelItem => item.gender)
+                </div>
+                <div class="form-group col-sm-4">
+                    <h5><b>Pet Microchip Status : </b></h5>
+                    @Html.DisplayFor(modelItem => item.mChipStatus)
+                    <br /><br />
+                    <h5><b>Pet Microchip ID : </b></h5>
+                    @Html.DisplayFor(modelItem => item.mChipId)
+                    <br /><br />
+                    <h5><b>Pet Nueter Status : </b></h5>
+                    @Html.DisplayFor(modelItem => item.nueterStatus)
+                    <br /><br />
+                </div>
+                <div class="form-group col-sm-4"><center>
+                    <img src="@Html.DisplayFor(modelItem => item.Image.imagePath)" style="height:250px;width:250px;" />
+                     <br /> <br />
+                            </center>
+                    <div class="d-flex justify-content-center">
+                        <div>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.petId }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.petId })
+                            </div>
+                    </div>
+                </div>
+                </div>
+          </div>
+    </div>
+}
+
+
+

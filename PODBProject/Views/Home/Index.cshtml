@@ -1,31 +1,43 @@
-﻿@{
+﻿@using System.Linq;
+@using System.Data.Entity;
+
+@model  IEnumerable<PODBProject.Announcement>
+
+@{
+
     ViewBag.Title = "Home Page";
 }
 
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <center><img src="~/Content/images/Pictures/cvoLogo.png" width="350" height="350"/></center>
+    <center><h1>Welcome to the City Veterinary Pet Owner's Website!</h1></center>
+</div>
+<hr />
+
+<div class="container">
+    <h4>Announcements</h4>
+    @if (Model != null)
+    {
+        foreach (var item in Model.Reverse())
+        {
+            <div class="d-flex justify-content-center">
+                <div class="jumbotron col col-md-10">
+
+                    <center><img src="@Html.DisplayFor(modelItem => item.Image.imagePath)" style="height:250px;width:250px;" multiple/></center>
+                    <div class"row lg-8">
+                        <div class="col-md-12" style="margin-top:30px;">
+                            <h3>@Html.DisplayFor(modelItem => item.announceTitle)</h3>
+                            <div class="col-md-6">
+                                <small>@item.announceDate.ToString("dddd, dd MMMM yyyy")</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top:20px">
+                        @Html.DisplayFor(modelItem => item.announceText)
+                    </div>
+                </div>
+            </div>
+        }
+    }
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>

@@ -1,20 +1,26 @@
-﻿using System;
-using System.Globalization;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using PODBProject.Actions;
+using PODBProject.Models;
+using System;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
-using System.Security.Claims;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using PODBProject.Models;
 
 namespace PODBProject.Controllers
+
 {
     [Authorize]
     public class AccountController : Controller
     {
+        PODBProjectEntities entities;
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -22,21 +28,20 @@ namespace PODBProject.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
         }
-
         public ApplicationSignInManager SignInManager
         {
             get
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -68,18 +73,43 @@ namespace PODBProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+            var db = new PODBProjectEntities();
+
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-
             // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            // To enable password failures to trigger account lockout, change to shouldLockout: true, 
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: true);
+
+            // If username and password is correct check if account is activated.
+            String id = User.Identity.GetUserId();
             switch (result)
             {
+       
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    var user = await UserManager.FindAsync(model.Email, model.Password);
+                    var roles = await UserManager.GetRolesAsync(user.Id);
+                    if (!db.AspNetUsers.Where(e => e.Email.Equals(model.Email)).FirstOrDefault().EmailConfirmed)
+                    {
+                        Session.Abandon();
+                        AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                        ModelState.AddModelError("", "You need to confirm your email address");
+                        return RedirectToAction("ConfirmBeforeLogin", "Account");
+                    }
+                    else if (roles.Contains("Admin"))
+                    {
+                        return RedirectToAction("Index","Admin");
+                    }
+                    else if (roles.Contains("Employee"))
+                    {
+                        return RedirectToAction("Index", "Employee");
+                    }
+                    else
+                    {
+                        return RedirectToLocal(returnUrl);
+                    }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -104,7 +134,7 @@ namespace PODBProject.Controllers
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
-        //
+        
         // POST: /Account/VerifyCode
         [HttpPost]
         [AllowAnonymous]
@@ -120,7 +150,7 @@ namespace PODBProject.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -142,11 +172,10 @@ namespace PODBProject.Controllers
             return View();
         }
 
-        //
-        // POST: /Account/Register
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        //POST: /Account/Register
+       [HttpPost]
+       [AllowAnonymous]
+       [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
@@ -155,24 +184,22 @@ namespace PODBProject.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("PetOwnerProfile", "Account");
                 }
                 AddErrors(result);
             }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
+            return RedirectToAction("PetOwnerProfile", "Account");
         }
 
-        //
+
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
@@ -202,7 +229,7 @@ namespace PODBProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
+                var user = await UserManager.FindByEmailAsync(model.Email);
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
@@ -211,10 +238,10 @@ namespace PODBProject.Controllers
 
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form
@@ -248,7 +275,7 @@ namespace PODBProject.Controllers
             {
                 return View(model);
             }
-            var user = await UserManager.FindByNameAsync(model.Email);
+            var user = await UserManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
                 // Don't reveal that the user does not exist
@@ -423,6 +450,71 @@ namespace PODBProject.Controllers
             base.Dispose(disposing);
         }
 
+        string constring = ConfigurationManager.ConnectionStrings["DefaultConnection"].ToString();
+
+        [HttpGet]
+        public ActionResult PetOwnerProfile()
+        {
+            PODBProjectEntities entities = new PODBProjectEntities();
+
+            if (entities.PetOwnerProfiles.Where(e => e.Id.Equals(User.Identity.GetUserId())) != null)
+            {
+                return View(); 
+            }
+            else
+            {
+                return RedirectToAction("Index", "Manage");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult PetOwnerProfile(PetOwnerProfile info, HttpPostedFileBase file , Image ImageModel)
+        {
+            PODBProjectEntities entities = new PODBProjectEntities();
+            String userId = User.Identity.GetUserId();
+
+            PostPhoto photo = new PostPhoto();
+            String path = photo.PostPhotoPetOwner(file);
+
+            int imageid = entities.Images.Where(e => e.imagePath.Equals(path)).FirstOrDefault().imageID;
+            string Email = entities.AspNetUsers.Where(e => e.Id.Equals(userId)).FirstOrDefault().Email;
+
+            if (info.subdivision == null)
+            {
+                info.subdivision = "N/A";
+            }
+            else
+            { }
+                var user = new PetOwnerProfile()
+                {
+                    Id = userId,
+                    fullName = info.fullName,
+                    gender = info.gender,
+                    street = info.street,
+                    subdivision = info.subdivision,
+                    barangay = info.barangay,
+                    contactNumber = info.contactNumber,
+                    email = Email,
+                    registerDate = DateTime.Now,
+                    updateDate = DateTime.Now,
+                    imageID = imageid
+                };
+                entities.PetOwnerProfiles.Add(user);
+                entities.SaveChanges();
+
+            if (!entities.AspNetUsers.Where(e => e.Email.Equals(Email)).FirstOrDefault().EmailConfirmed)
+            {
+                Session.Abandon();
+                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                ModelState.AddModelError("", "You need to confirm your email address");
+                return RedirectToAction("ConfirmBeforeLogin", "Account");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
@@ -479,6 +571,12 @@ namespace PODBProject.Controllers
                 }
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
+        }
+
+        [AllowAnonymous]
+        public ActionResult ConfirmBeforeLogin()
+        {
+            return View();
         }
         #endregion
     }

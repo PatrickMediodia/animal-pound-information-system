@@ -1,0 +1,74 @@
+﻿@model PODBProject.PetProfile
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PetProfile</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.petName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.petName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.petType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.petType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.petBreed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.petBreed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.gender)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.gender)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mChipStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mChipStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mChipId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mChipId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.nueterStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nueterStatus)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.petId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

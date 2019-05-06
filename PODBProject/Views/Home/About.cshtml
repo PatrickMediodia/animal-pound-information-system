@@ -1,7 +1,44 @@
 ﻿@{
     ViewBag.Title = "About";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
 
-<p>Use this area to provide additional information.</p>
+<div class="jumbotron">
+        <center><h2>@ViewBag.Title</h2></center>
+        <hr />
+        <br />
+        <center><h3>@ViewBag.Message</h3></center>
+        <br />
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <center><img src="~/Content/images/Pictures/Carousel.jpg" alt="..." width="700" height="400"></center>
+                </div>
+                <div class="carousel-item">
+                    <center><img src="~/Content/images/Pictures/Carousel2.jpg" alt="..." width="700" height="400"></center>
+                </div>
+                <div class="carousel-item">
+                    <center><img src="~/Content/images/Pictures/Carousel3.jpg" alt="..." width="700" height="400"></center>
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+
+<div class="jumbotron">
+    <center><h1>Services</h1></center>
+    <hr />
+    <br />
+    <center><img src="~/Content/images/Pictures/CITY VET.jpg" /></center>
+</div>

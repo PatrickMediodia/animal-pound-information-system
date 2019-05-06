@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Data;
+using System.Data.Entity;
+using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -6,7 +10,9 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using PODBProject.Actions;
 using PODBProject.Models;
+
 
 namespace PODBProject.Controllers
 {
@@ -32,9 +38,9 @@ namespace PODBProject.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -333,7 +339,7 @@ namespace PODBProject.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -384,6 +390,87 @@ namespace PODBProject.Controllers
             Error
         }
 
-#endregion
+        readonly string constring = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+
+        public ActionResult ViewDetail()
+        {
+            PODBProjectEntities entities = new PODBProjectEntities();
+
+            if (entities.PetOwnerProfiles.Where(e => e.Id.Equals(User.Identity.GetUserId())) == null)
+            {
+                return RedirectToAction("PetOwnerProfile", "Account");
+            }
+            else
+            {
+                string id = User.Identity.GetUserId();
+                return View(entities.PetOwnerProfiles.Where(e => e.Id.Equals(id)).FirstOrDefault());
+            }
+        }
+            
+        public ActionResult EditDetail()
+        {
+            PODBProjectEntities db = new PODBProjectEntities();
+            string id = User.Identity.GetUserId();
+            return View(db.PetOwnerProfiles.Where(e => e.Id.Equals(id)).FirstOrDefault());
+        }
+        [HttpPost]
+        public ActionResult EditDetail(PetOwnerProfile info, HttpPostedFileBase file , Image ImageModel)
+        {
+            int imageid;
+            PODBProjectEntities entities = new PODBProjectEntities();
+            String userId = User.Identity.GetUserId();
+
+            PostPhoto photo = new PostPhoto();
+            String path = photo.PostPhotoPetOwner(file);
+
+            if (file != null)
+            {
+                imageid = entities.Images.Where(e => e.imagePath.Equals(path)).FirstOrDefault().imageID;
+            }
+            else
+            {
+                imageid = entities.PetOwnerProfiles.Where(e => e.Id.Equals(userId)).FirstOrDefault().imageID;
+            }
+
+                        using (PODBProjectEntities image = new PODBProjectEntities())
+                        {
+                            ImageModel.imageID = imageid;
+                            ImageModel.imagePath = path;
+                            ImageModel.imageType = "PetOwnerProfile";
+                            entities.Entry(ImageModel).State = EntityState.Modified;
+                            entities.SaveChanges();
+                        }
+
+            using (entities)
+            {
+                var result = entities.PetOwnerProfiles.SingleOrDefault(e=>e.Id == userId);
+                if (result != null)
+                {
+                    if (info.subdivision == null)
+                    {
+                        info.subdivision = "none";
+                    }
+                    else
+                    { }
+                    var user = new PetOwnerProfile()
+                    {
+                        Id = userId,
+                        fullName = info.fullName,
+                        gender = info.gender,
+                        street = info.street,
+                        subdivision = info.subdivision,
+                        barangay = info.barangay,
+                        contactNumber = info.contactNumber,
+                        email = entities.AspNetUsers.Where(e => e.Id.Equals(userId)).FirstOrDefault().Email,
+                        registerDate = entities.PetOwnerProfiles.Where(e => e.Id.Equals(userId)).FirstOrDefault().registerDate,
+                        updateDate = DateTime.Now,
+                        imageID = imageid
+                    };
+                    entities.SaveChanges();
+                }
+                return RedirectToAction("ViewDetail","Manage");
+            }
+        }
+        #endregion
     }
 }

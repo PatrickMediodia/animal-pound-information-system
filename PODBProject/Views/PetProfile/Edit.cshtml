@@ -1,0 +1,116 @@
+﻿@model PODBProject.PetProfile
+
+@{
+
+    ViewBag.Title = "Edit";
+}
+
+@using (Html.BeginForm("Edit", "PetProfile", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="d-flex justify-content-center">
+            <div class="jumbotron col-md-7">
+                <h3>Edit Pet Profile</h3>
+                <hr />
+                <br />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.petId)
+                @Html.HiddenFor(model => model.Id)
+                @Html.HiddenFor(model => model.imageID)
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.petName, htmlAttributes: new { @class = "control-label col-md-6" })
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.petName, new { htmlAttributes = new { @class = "form-control col-sm-12" } })
+                        @Html.ValidationMessageFor(model => model.petName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-5">
+                        @Html.LabelFor(model => model.petType, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-sm-12">
+                            @Html.DropDownList("petType", new List<SelectListItem> {
+                                       new SelectListItem { Text = "Dog" , Value="Dog"},
+                                       new SelectListItem { Text = "Cat" , Value = "Cat" },
+                                       }, "-- Select Pet Type --", htmlAttributes: new { @class = "control-label col-md-12" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-7">
+                        @Html.LabelFor(model => model.petBreed, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.petBreed, new { htmlAttributes = new { @class = "form-control col-sm-12" } })
+                            @Html.ValidationMessageFor(model => model.petBreed, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class=form-row>
+                    <div class="form-group col-sm-6">
+                        @Html.LabelFor(model => model.gender, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-sm-12">
+                            @Html.DropDownList("gender", new List<SelectListItem> {
+                                       new SelectListItem { Text = "Male" , Value="Male"},
+                                       new SelectListItem { Text = "Female" , Value = "Female" },
+                                       }, " ------- Select Gender ------- ", htmlAttributes: new { @class = "control-label col-md-12" })
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        @Html.LabelFor(model => model.nueterStatus, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-sm-12">
+                            @Html.DropDownList("nueterStatus", new List<SelectListItem> {
+                                       new SelectListItem { Text = "Nuetered" , Value="Nuetered"},
+                                       new SelectListItem { Text = "Not Nuetered" , Value = "Not Nuetered"},
+                                       }, "---- Select Nueter Status ---- ", htmlAttributes: new { @class = "control-label col-md-12" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-6">
+                        @Html.LabelFor(model => model.mChipStatus, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-sm-12">
+                            @Html.DropDownList("mChipStatus", new List<SelectListItem> {
+                                       new SelectListItem { Text = "Microchipped" , Value="Microchipped"},
+                                       new SelectListItem { Text = "Not Microchipped" , Value = "Not Microchipped" },
+                                       }, "-- Select Micro Chip Status --", htmlAttributes: new { @class = "control-label col-md-12", id = "status" })
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        @Html.LabelFor(model => model.mChipId, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.mChipId, new { htmlAttributes = new { @class = "form-control col-sm-12", id = "mChipStatus" } })
+                            @Html.ValidationMessageFor(model => model.mChipId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+                <script>
+                    $(document).ready(function () {
+                        $("#status").change(function () {
+                            var g = $("#status").val();
+                            if (g == "Not Microchipped") {
+                                $("#mChipStatus ").prop("disabled", true);
+                            } else {
+                                $("#mChipStatus ").prop("disabled", false);
+                            }
+                        });
+                    });
+                </script>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <p>Pet Profile Photo</p>
+                        <input type="file" name="file">
+                    </div>
+                </div>
+                <div style="margin-top: 20px;">
+                    <center><input type="submit" value="Create" class="btn btn-primary" /></center>
+                </div>
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        </div>
+    </div>
+}
+<div>
+    
+</div>

@@ -29,5 +29,22 @@ namespace PODBProject.Models
         {
             return new ApplicationDbContext();
         }
+
+        protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<IdentityUser>().ToTable("AspNetUsers").Property(p => p.Id).HasColumnName("Id");
+            modelBuilder.Entity<ApplicationUser>().ToTable("AspNetUsers").Property(p => p.Id).HasColumnName("Id");
+            modelBuilder.Entity<IdentityUserRole>().ToTable("AspNetUserRoles");
+            modelBuilder.Entity<IdentityUserLogin>().ToTable("AspNetUserLogins");
+            modelBuilder.Entity<IdentityUserClaim>().ToTable("AspNetUserClaims");
+            modelBuilder.Entity<IdentityRole>().ToTable("AspNetRoles");
+        }
+
+        public System.Data.Entity.DbSet<PODBProject.Announcement> Announcements { get; set; }
+
+        public System.Data.Entity.DbSet<PODBProject.Image> Images { get; set; }
     }
+    
 }

@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "PetProfileNotFound";
+}
+
+@using (Html.BeginForm("Create", "PetProfile", FormMethod.Get))
+{
+    <div class="jumbotron">
+        <center><h2>Pet Profile Not Found</h2></center>
+        <hr />
+        <center><h3>Click Create to Create a Profile for your Pet</h3></center>
+        <br />
+        <center><button type="submit" class="btn btn-primary" style="margin-bottom:20px">Create</button></center>
+    </div>
+}
