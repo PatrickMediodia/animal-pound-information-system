@@ -10,6 +10,7 @@ using PODBProject.Actions;
 using PODBProject.Models;
 namespace PODBProject.Controllers
 {
+    [Authorize]
     public class PetProfileController : Controller
     {
         String userId;

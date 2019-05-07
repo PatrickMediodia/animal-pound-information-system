@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4386037e41ef433abb36f8e8f9ad3fd6" Name="Diagram1" ZoomLevel="63">
+        <EntityTypeShape EntityType="PODBProjectModel.Adoption" Width="1.5" PointX="3" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="PODBProjectModel.Announcement" Width="1.5" PointX="6" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PODBProjectModel.AspNetRole" Width="1.5" PointX="13.25" PointY="17.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PODBProjectModel.AspNetUserClaim" Width="1.5" PointX="13.25" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PODBProjectModel.AspNetUserLogin" Width="1.5" PointX="13.25" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PODBProjectModel.AspNetUserRole" Width="1.5" PointX="13.25" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PODBProjectModel.AspNetUser" Width="1.5" PointX="0.75" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PODBProjectModel.Feedback" Width="1.5" PointX="3" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PODBProjectModel.Image" Width="1.5" PointX="5.875" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PODBProjectModel.PetOwnerProfile" Width="1.5" PointX="8.375" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PODBProjectModel.PetProfile" Width="1.5" PointX="6" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PODBProjectModel.Report" Width="1.5" PointX="10" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PODBProjectModel.Service" Width="1.5" PointX="8.25" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PODBProjectModel.Violation" Width="1.5" PointX="10.75" PointY="13.625" IsExpanded="true" />
+        <AssociationConnector Association="PODBProjectModel.FK_Adoption_AspNetUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="PODBProjectModel.FK_Adoption_PetProfile" ManuallyRouted="false" />
+        <AssociationConnector Association="PODBProjectModel.FK_Announcements_AspNetUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="PODBProjectModel.FK_Announcements_Image" ManuallyRouted="false" />
+        <AssociationConnector Association="PODBProjectModel.FK_dbo_UserRole_dbo_Role_RoleId" ManuallyRouted="false" />
+        <AssociationConnector Association="PODBProjectModel.FK_Feedback_AspNetUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="PODBProjectModel.FK_PetOwnerProfile_AspNetUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="PODBProjectModel.FK_PetProfile_AspNetUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="PODBProjectModel.FK_Reports_AspNetUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="PODBProjectModel.FK_Services_AspNetUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="PODBProjectModel.FK_Violations_AspNetUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="PODBProjectModel.FK_PetOwnerProfile_Image" ManuallyRouted="false" />
+        <AssociationConnector Association="PODBProjectModel.FK_PetProfile_Image" ManuallyRouted="false" />
+        <AssociationConnector Association="PODBProjectModel.FK_Services_PetProfile" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

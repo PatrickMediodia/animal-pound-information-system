@@ -211,10 +211,10 @@
   <ItemGroup>
     <Compile Include="Actions\PostPhoto.cs" />
     <Compile Include="Adoption.cs">
-      <DependentUpon>PODBProjectDataModel.tt</DependentUpon>
+      <DependentUpon>PODBProjectModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Announcement.cs">
-      <DependentUpon>PODBProjectDataModel.tt</DependentUpon>
+      <DependentUpon>PODBProjectModel.tt</DependentUpon>
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -222,19 +222,19 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="AspNetRole.cs">
-      <DependentUpon>PODBProjectDataModel.tt</DependentUpon>
+      <DependentUpon>PODBProjectModel.tt</DependentUpon>
     </Compile>
     <Compile Include="AspNetUser.cs">
-      <DependentUpon>PODBProjectDataModel.tt</DependentUpon>
+      <DependentUpon>PODBProjectModel.tt</DependentUpon>
     </Compile>
     <Compile Include="AspNetUserClaim.cs">
-      <DependentUpon>PODBProjectDataModel.tt</DependentUpon>
+      <DependentUpon>PODBProjectModel.tt</DependentUpon>
     </Compile>
     <Compile Include="AspNetUserLogin.cs">
-      <DependentUpon>PODBProjectDataModel.tt</DependentUpon>
+      <DependentUpon>PODBProjectModel.tt</DependentUpon>
     </Compile>
     <Compile Include="AspNetUserRole.cs">
-      <DependentUpon>PODBProjectDataModel.tt</DependentUpon>
+      <DependentUpon>PODBProjectModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -242,19 +242,20 @@
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PetOwnerController.cs" />
     <Compile Include="Controllers\PetProfileController.cs" />
     <Compile Include="Controllers\RecordsController.cs" />
     <Compile Include="CVOEmployee.cs">
-      <DependentUpon>PODBProjectDataModel.tt</DependentUpon>
+      <DependentUpon>PODBProjectModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Feedback.cs">
-      <DependentUpon>PODBProjectDataModel.tt</DependentUpon>
+      <DependentUpon>PODBProjectModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Image.cs">
-      <DependentUpon>PODBProjectDataModel.tt</DependentUpon>
+      <DependentUpon>PODBProjectModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\EmployeeViewModel.cs" />
@@ -262,36 +263,36 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PetProfileModel.cs" />
     <Compile Include="PetOwnerProfile.cs">
-      <DependentUpon>PODBProjectDataModel.tt</DependentUpon>
+      <DependentUpon>PODBProjectModel.tt</DependentUpon>
     </Compile>
     <Compile Include="PetProfile.cs">
-      <DependentUpon>PODBProjectDataModel.tt</DependentUpon>
+      <DependentUpon>PODBProjectModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="PODBProjectDataModel.Context.cs">
+    <Compile Include="PODBProjectModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PODBProjectDataModel.Context.tt</DependentUpon>
+      <DependentUpon>PODBProjectModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="PODBProjectDataModel.cs">
+    <Compile Include="PODBProjectModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PODBProjectDataModel.tt</DependentUpon>
+      <DependentUpon>PODBProjectModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="PODBProjectDataModel.Designer.cs">
+    <Compile Include="PODBProjectModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PODBProjectDataModel.edmx</DependentUpon>
+      <DependentUpon>PODBProjectModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Report.cs">
-      <DependentUpon>PODBProjectDataModel.tt</DependentUpon>
+      <DependentUpon>PODBProjectModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Service.cs">
-      <DependentUpon>PODBProjectDataModel.tt</DependentUpon>
+      <DependentUpon>PODBProjectModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
     <Compile Include="Violation.cs">
-      <DependentUpon>PODBProjectDataModel.tt</DependentUpon>
+      <DependentUpon>PODBProjectModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -1871,15 +1872,15 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\marginSite.css" />
-    <Content Include="PODBProjectDataModel.Context.tt">
+    <Content Include="PODBProjectModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>PODBProjectDataModel.edmx</DependentUpon>
-      <LastGenOutput>PODBProjectDataModel.Context.cs</LastGenOutput>
+      <DependentUpon>PODBProjectModel.edmx</DependentUpon>
+      <LastGenOutput>PODBProjectModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="PODBProjectDataModel.tt">
+    <Content Include="PODBProjectModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>PODBProjectDataModel.edmx</DependentUpon>
-      <LastGenOutput>PODBProjectDataModel.cs</LastGenOutput>
+      <DependentUpon>PODBProjectModel.edmx</DependentUpon>
+      <LastGenOutput>PODBProjectModel.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -2045,12 +2046,12 @@
     <Content Include="Content\vendor\fontawesome-free\webfonts\fa-solid-900.woff2" />
     <Content Include="Content\vendor\jquery\jquery.min.map" />
     <Content Include="Content\vendor\jquery\jquery.slim.min.map" />
-    <EntityDeploy Include="PODBProjectDataModel.edmx">
+    <EntityDeploy Include="PODBProjectModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>PODBProjectDataModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>PODBProjectModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="PODBProjectDataModel.edmx.diagram">
-      <DependentUpon>PODBProjectDataModel.edmx</DependentUpon>
+    <Content Include="PODBProjectModel.edmx.diagram">
+      <DependentUpon>PODBProjectModel.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -2142,6 +2143,8 @@
     <Content Include="Views\Records\Violations.cshtml" />
     <Content Include="Views\Records\Adoption.cshtml" />
     <Content Include="Views\Records\Services.cshtml" />
+    <Content Include="Views\PetOwner\Index.cshtml" />
+    <Content Include="Views\PetOwner\AddOrEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

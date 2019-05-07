@@ -9,17 +9,17 @@ using System.Web.Mvc;
 
 namespace PODBProject.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         ApplicationDbContext context = new ApplicationDbContext();
 
-        [Authorize(Roles ="Admin")]
+        
         // GET: Admin
         public ActionResult Index()
         {
             return View();
         }
-        [Authorize(Roles = "Admin")]
         public ActionResult CreateUser()
         {
                return View();

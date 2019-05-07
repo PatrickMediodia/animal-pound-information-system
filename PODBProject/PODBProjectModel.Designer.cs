@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\lipat\source\repos\PODBProject\PODBProject\PODBProjectDataModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Patrick\source\repos\PODBProject\PODBProject\PODBProjectModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

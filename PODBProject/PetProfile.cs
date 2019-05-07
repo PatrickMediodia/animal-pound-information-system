@@ -36,8 +36,6 @@ namespace PODBProject
         public virtual ICollection<Adoption> Adoptions { get; set; }
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual Image Image { get; set; }
-        public virtual PetProfile PetProfile1 { get; set; }
-        public virtual PetProfile PetProfile2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Service> Services { get; set; }
     }
